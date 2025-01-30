@@ -1,6 +1,6 @@
 class file_manager:
     def read_csv_and_save_to_json(self):
-        pass
+        print('vad fan som helst')
 
     def add_person(self):
         pass
