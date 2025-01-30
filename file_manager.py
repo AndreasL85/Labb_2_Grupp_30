@@ -1,0 +1,15 @@
+class file_manager:
+    def read_csv_and_save_to_json(self):
+        pass
+
+    def add_person(self):
+        pass
+
+    def remove_person(self):
+        pass
+
+    def show_all_data(self):
+        pass
+
+    def save_json_to_csv(self):
+        pass
