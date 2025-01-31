@@ -1,7 +1,6 @@
 class file_manager:
     def read_csv_and_save_to_json(self):
-        print('vad fan som helst')
-        print("MOOO")
+        pass
 
     def add_person(self):
         pass
