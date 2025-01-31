@@ -1,6 +1,6 @@
 import file_manager
 
-file_mgr = file_manager.file_manager()
+file_mgr = file_manager.FileManager()
 
 def show_menu():
     print("1. Read CSV and save to JSON")
