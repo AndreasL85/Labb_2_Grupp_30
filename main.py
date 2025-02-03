@@ -1,7 +1,8 @@
-import file_manager
+import file_manager # vi importerar klassen FileManager från file_manager.py
 
-file_mgr = file_manager.FileManager()
+file_mgr = file_manager.FileManager() # vi skapar ett objekt från klassen FileManager
 
+# vi skapar en meny med funktionen show_meny
 def show_menu():
     print("1. Read CSV and save to JSON")
     print("2. Add person (to JSON file)")
@@ -10,10 +11,12 @@ def show_menu():
     print("5. Save JSON to CSV")
     print("6. Exit")
 
+
 def main():
-    while True:
-        show_menu()
+    while True: # while sats för de olika alternativen i menyn. Fortsätter loopas tills ett giltigt svar skrivs in
+        show_menu() # anropar funktionen????????
         choice = input("Enter your choice: ")
+
         if choice == "1":
             file_mgr.read_csv_and_save_to_json()
         elif choice == "2":
