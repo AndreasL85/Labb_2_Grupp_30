@@ -2,4 +2,4 @@ problem med  att förstå oss på static i python och vart encoding skulle skriv
 
 problem med att spara csv fil till json. Hur man ska lägga upp tankesättet och skriva ner koden.
 
-utmaning med att hitta användar ei en JSON fil man ska ta bort
+utmaning med att hitta användare i en JSON fil man ska ta bort
