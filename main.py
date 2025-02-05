@@ -1,5 +1,6 @@
 import file_manager # vi importerar klassen FileManager från file_manager.py
 
+
 file_mgr = file_manager.FileManager() # vi skapar ett objekt från klassen FileManager
 
 # vi skapar en meny med funktionen show_meny
@@ -33,5 +34,6 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
+# kör bara main funktionen om filen inte är importerad
 if __name__ == "__main__":
     main()
