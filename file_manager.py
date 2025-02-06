@@ -10,7 +10,7 @@ class FileManager: # vi skapar en klass
     def read_csv_and_save_to_json():
         students = [] # lista för studenter
 
-        # vi öppnar CSV-filen i läsläge och lagras i variabeln csv_file_obj
+        # vi öppnar CSV-filen i läsläge och lagrar den i variabeln csv_file_obj
         with open(FileManager.csv_file, "r", encoding = "utf-8-sig") as csv_file_obj:
             csv_reader = csv.DictReader(csv_file_obj) # CSV läses in som en ordlista (rad för rad)
 
@@ -31,7 +31,7 @@ class FileManager: # vi skapar en klass
     @staticmethod
     # vi använder en metod för att lägga till en person i JSON-filen
     def add_person():
-            try:
+            try: # vi använder oss av try-except
                 with open(FileManager.json_file, "r", encoding = "utf-8-sig") as json_file_obj: # vi öppnar filen i läsläge
                     data = json_file_obj.read() # vi läser filen
 
@@ -87,7 +87,7 @@ class FileManager: # vi skapar en klass
             print("Enter student username that you want to remove")
             erase_student = input("Username: ")
 
-            student_found = False # vi kollar om studenten finns
+            student_found = False # bool för att kolla om studenten blivit hittad
             # vi loopar igenom listan med studenter
             for student in students:
                 # om studenten finns, tar vi bort den
@@ -117,18 +117,18 @@ class FileManager: # vi skapar en klass
     @staticmethod
     def show_all_data():
         try: # vi försöker exekvera koden i try-blocket
-            with open(FileManager.json_file, "r", encoding = "utf-8-sig") as json_file_obj:
+            with open(FileManager.json_file, "r", encoding = "utf-8-sig") as json_file_obj: ## vi öppnar CSV-filen i läsläge och lagrar den i variabeln csv_file_obj
                 json_data = json.load(json_file_obj) # load läser in python filen samt konverterar den till en lista av dictionaries
 
                 if not json_data:
                     print("The list is empty")
                     return
 
-                print(json.dumps(json_data, indent = 4, ensure_ascii =  False)) # vi skriver ut innehållet snyggt
+                print(json.dumps(json_data, indent = 4, ensure_ascii =  False)) # vi skriver ut innehållet snyggt med hjälp av dumps
         except FileNotFoundError:
-            print("Fel. Filen existerar inte.") # finns inte filen skriver vi ut felmeddelande
+            print("Error. File does not exist.") # finns inte filen skriver vi ut felmeddelande
         except json.JSONDecodeError:
-            print("Fel. Det gick inte att avkoda filen") # felmeddelande vid avkodning
+            print("Error. Could not decode file") # felmeddelande vid avkodning
 
     @staticmethod
     def save_json_to_csv():
@@ -141,10 +141,9 @@ class FileManager: # vi skapar en klass
                     return
 
         except FileNotFoundError:
-            print("Fel. Filen existerar inte.")  # finns inte filen skriver vi ut felmeddelande
-
+            print("Error. File does not exist.") # finns inte filen skriver vi ut felmeddelande
         except json.JSONDecodeError:
-            print("Fel. Det gick inte att avkoda filen")  # felmeddelande vid avkodning
+            print("Error. Could not decode file") # felmeddelande vid avkodning
 
         # vi hämtar rubrikerna från första studenten
         headers = json_data[0].keys()
