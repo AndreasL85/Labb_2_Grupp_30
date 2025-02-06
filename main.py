@@ -1,5 +1,4 @@
-import file_manager # vi importerar klassen FileManager från file_manager.py
-
+import file_manager # vi importerar filen file_manager.py
 
 file_mgr = file_manager.FileManager() # vi skapar ett objekt från klassen FileManager
 
@@ -15,7 +14,7 @@ def show_menu():
 
 def main():
     while True: # while sats för de olika alternativen i menyn. Fortsätter loopas tills ett giltigt svar skrivs in
-        show_menu() # anropar funktionen????????
+        show_menu() # vi anropar metoden show_menu
         choice = input("Enter your choice: ")
 
         if choice == "1":

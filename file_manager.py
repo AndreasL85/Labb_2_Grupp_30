@@ -1,7 +1,6 @@
 import csv # vi importerar CSV-modulen
 import json #vi importerar JSON-modulen
 
-
 class FileManager: # vi skapar en klass
     # tilldelar klassvariabler till filerna
     csv_file = "studenter_labb2_v25_Ny.csv"
@@ -9,21 +8,20 @@ class FileManager: # vi skapar en klass
 
     @staticmethod # vi använder static för att läsa CSV och spara till JSON
     def read_csv_and_save_to_json():
-        headers = [] # fråga ullis om headers ska vara med!!!!!!!!!!!!!!!!!!!!!!!!! lista för kolumn rubriker (används ej just nu) - chat gpt
         students = [] # lista för studenter
 
         # vi öppnar CSV-filen i läsläge och lagras i variabeln csv_file_obj
         with open(FileManager.csv_file, "r", encoding = "utf-8-sig") as csv_file_obj:
             csv_reader = csv.DictReader(csv_file_obj) # CSV läses in som en ordlista (rad för rad)
 
-            headers = next(csv_reader)
+            headers = next(csv_reader) # vi läser in rubrikerna
 
             # vi loopar igenom varje rad i CSV-filen
             for row in csv_reader:
                 students.append(row) # för varje loopvarv läggs en ny rad till (som en dictionary) i listan för studenter med hjälp av "append"
 
         # vi öppnar JSON-filen i skrivläge
-        # vi tecken kodar för att vi ska kunna skriva ut "åöä"
+        # vi tecken-kodar för att vi ska kunna skriva ut "åöä"
         with open(FileManager.json_file, "w", encoding = "utf-8-sig") as json_file_obj:
             json.dump(students, json_file_obj, ensure_ascii = False, indent = 4) # vi sparar ner datan i json filen
         print("File saved to JSON")
@@ -42,7 +40,7 @@ class FileManager: # vi skapar en klass
                     else:
                         students = json.loads(data) # vi laddar in json-filen som en lista i python
 
-            # saknas filen så eller inte funkar så skpar vi en tom lista
+            # saknas filen eller inte funkar, så skapar vi en tom lista
             except (FileNotFoundError, json.JSONDecodeError):
                 students = []
 
@@ -51,6 +49,7 @@ class FileManager: # vi skapar en klass
             last_name = input("Last name: ")
             user_name = input("Username: ")
 
+            # vi skapar en dictionary för den nya studenten
             new_person = {
                 "efternamn": last_name,
                 "förnamn": first_name,
@@ -59,7 +58,9 @@ class FileManager: # vi skapar en klass
 
             students.append(new_person) # vi lägger till ny student på slutet av listan
 
+            # vi öppnar JSON-filen i skrivläge
             with open(FileManager.json_file, "w", encoding = "utf-8-sig") as json_file_obj:
+                # vi sparar ner datan i json filen
                 json.dump(students, json_file_obj, ensure_ascii = False, indent = 4)
 
             print("New student added")
@@ -86,7 +87,9 @@ class FileManager: # vi skapar en klass
             erase_student = input("Username: ")
 
             student_found = False # vi kollar om studenten finns
+            # vi loopar igenom listan med studenter
             for student in students:
+                # om studenten finns, tar vi bort den
                 if student["användarnamn"] == erase_student:
                     students.remove(student)
                     student_found = True
@@ -148,11 +151,9 @@ class FileManager: # vi skapar en klass
         with open(FileManager.csv_file, "w", newline = "", encoding = "utf-8-sig") as csv_file_obj:
             csv_writer = csv.DictWriter(csv_file_obj, fieldnames = headers)
 
-            #rubiker
+            # vi skriver rubrikerna
             csv_writer.writeheader()
             # vi skriver ner alla studenter
             csv_writer.writerows(json_data)
 
         print("The CSV-file is updated with the latest JSON-data")
-
-
