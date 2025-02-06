@@ -14,7 +14,8 @@ class FileManager: # vi skapar en klass
         with open(FileManager.csv_file, "r", encoding = "utf-8-sig") as csv_file_obj:
             csv_reader = csv.DictReader(csv_file_obj) # CSV läses in som en ordlista (rad för rad)
 
-            headers = next(csv_reader) # vi läser in rubrikerna
+            # vi hoppar över rubrikerna
+            next(csv_reader)
 
             # vi loopar igenom varje rad i CSV-filen
             for row in csv_reader:
