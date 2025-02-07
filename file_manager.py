@@ -9,23 +9,35 @@ class FileManager: # vi skapar en klass
     @staticmethod # vi använder static för att läsa CSV och spara till JSON
     def read_csv_and_save_to_json():
         students = [] # lista för studenter
+        try:
+            # vi öppnar CSV-filen i läsläge och lagrar den i variabeln csv_file_obj
+            with open(FileManager.csv_file, "r", encoding = "utf-8-sig") as csv_file_obj:
+                csv_reader = csv.DictReader(csv_file_obj) # CSV läses in som en ordlista (rad för rad)
 
-        # vi öppnar CSV-filen i läsläge och lagrar den i variabeln csv_file_obj
-        with open(FileManager.csv_file, "r", encoding = "utf-8-sig") as csv_file_obj:
-            csv_reader = csv.DictReader(csv_file_obj) # CSV läses in som en ordlista (rad för rad)
+                # vi hoppar över rubrikerna
+                next(csv_reader)
 
-            # vi hoppar över rubrikerna
-            next(csv_reader)
+                # vi loopar igenom varje rad i CSV-filen
+                for row in csv_reader:
+                    # för varje loopvarv läggs en ny rad till (som en dictionary) i listan för studenter med hjälp av "append"
+                    students.append(row)
 
-            # vi loopar igenom varje rad i CSV-filen
-            for row in csv_reader:
-                students.append(row) # för varje loopvarv läggs en ny rad till (som en dictionary) i listan för studenter med hjälp av "append"
+        except FileNotFoundError:
+            print("Error. File does not exist.") # om filen inte finns skriver vi ut felmeddelande
+        except csv.Error:
+            print("Error. Could not read file") # om det blir fel vid läsning av filen skriver vi ut felmeddelande
 
         # vi öppnar JSON-filen i skrivläge
         # vi tecken-kodar för att vi ska kunna skriva ut "åöä"
-        with open(FileManager.json_file, "w", encoding = "utf-8-sig") as json_file_obj:
-            json.dump(students, json_file_obj, ensure_ascii = False, indent = 4) # vi sparar ner datan i json filen
-        print("File saved to JSON")
+
+        try:
+            with open(FileManager.json_file, "w", encoding = "utf-8-sig") as json_file_obj:
+                json.dump(students, json_file_obj, ensure_ascii = False, indent = 4) # vi sparar ner datan i json filen
+            print("File saved to JSON")
+        except FileNotFoundError:
+            print("Error. File does not exist.") # om filen inte finns skriver vi ut felmeddelande
+        except json.JSONDecodeError:
+            print("Error. Could not decode file") # felmeddelande vid avkodning
 
 
     @staticmethod
@@ -59,14 +71,17 @@ class FileManager: # vi skapar en klass
 
             students.append(new_person) # vi lägger till ny student på slutet av listan
 
-            # vi öppnar JSON-filen i skrivläge
-            with open(FileManager.json_file, "w", encoding = "utf-8-sig") as json_file_obj:
-                # vi sparar ner datan i json filen
-                json.dump(students, json_file_obj, ensure_ascii = False, indent = 4)
+            try:
+                # vi öppnar JSON-filen i skrivläge
+                with open(FileManager.json_file, "w", encoding = "utf-8-sig") as json_file_obj:
+                    # vi sparar ner datan i json filen
+                    json.dump(students, json_file_obj, ensure_ascii = False, indent = 4)
+            except FileNotFoundError:
+                print("Error. File does not exist.")
+            except json.JSONDecodeError:
+                print("Error. Could not decode file")
 
             print("New student added")
-
-
 
 
     @staticmethod
@@ -111,8 +126,6 @@ class FileManager: # vi skapar en klass
             print("Error. Could not decode file") # felmeddelande vid avkodning
 
 
-
-
     # vi lägger till en metod som är statisk för att visa all data från JSON-filen
     @staticmethod
     def show_all_data():
@@ -148,12 +161,17 @@ class FileManager: # vi skapar en klass
         # vi hämtar rubrikerna från första studenten
         headers = json_data[0].keys()
 
-        with open(FileManager.csv_file, "w", newline = "", encoding = "utf-8-sig") as csv_file_obj:
-            csv_writer = csv.DictWriter(csv_file_obj, fieldnames = headers)
+        try:
+            with open(FileManager.csv_file, "w", newline = "", encoding = "utf-8-sig") as csv_file_obj:
+                csv_writer = csv.DictWriter(csv_file_obj, fieldnames = headers)
 
-            # vi skriver rubrikerna
-            csv_writer.writeheader()
-            # vi skriver ner alla studenter
-            csv_writer.writerows(json_data)
+                # vi skriver rubrikerna
+                csv_writer.writeheader()
+                # vi skriver ner alla studenter
+                csv_writer.writerows(json_data)
+        except FileNotFoundError:
+            print("Error. File does not exist.")
+        except csv.Error:
+            print("Error. Could not write to file")
 
         print("The CSV-file is updated with the latest JSON-data")
